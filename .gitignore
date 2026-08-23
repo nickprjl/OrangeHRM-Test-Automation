@@ -7,5 +7,8 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 
+# Environment Variables
+.env
+
 # Personal Notes
 configurationguide.txt

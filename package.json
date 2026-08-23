@@ -19,7 +19,9 @@
     "test:negative-headed": "playwright test --grep @negative --headed --workers=1",
     "test:e2e-headed": "playwright test --grep @e2e --headed --workers=1",
     "test:auth": "playwright test tests/auth",
-    "test:auth-headed": "playwright test tests/auth --headed --workers=1"
+    "test:auth-headed": "playwright test tests/auth --headed --workers=1",
+    "test:pim": "playwright test tests/pim",
+    "test:pim-headed": "playwright test tests/pim --headed --workers=1"
   },
   "keywords": [],
   "author": "",
