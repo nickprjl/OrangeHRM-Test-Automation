@@ -32,7 +32,7 @@ export class LoginPage {
 
   async expectErrorMessage(message: string | RegExp) {
     await expect(this.errorAlert).toBeVisible();
-    console.log("Error Message: ", await this.errorAlert.allTextContents());
+    // console.log("Error Message: ", await this.errorAlert.allTextContents());
     await expect(this.errorAlert).toContainText(message);
   }
 
