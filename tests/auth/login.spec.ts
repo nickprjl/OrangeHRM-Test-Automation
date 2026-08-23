@@ -1,12 +1,10 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../../fixtures/base.fixture";
 import { ENV } from "../../utils/env";
 import { LoginPage } from "../../pages/auth/LoginPage";
 
 test.describe("Login", () => {
   let loginPage: LoginPage;
-  test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-
+  test.beforeEach(async ({ loginPage }) => {
     await loginPage.goto();
   });
 
@@ -14,17 +12,22 @@ test.describe("Login", () => {
     await expect(page).toHaveTitle(/OrangeHRM/);
   });
 
-  test("User can login with valid Credentials", async ({ page }) => {
+  test("User can login with valid Credentials", async ({ page, loginPage }) => {
     await loginPage.login(ENV.username, ENV.password);
     await expect(page).toHaveURL(/dashboard/);
   });
 
-  test("User cannot login with invalid Credentials", async ({ page }) => {
+  test("User cannot login with invalid Credentials", async ({
+    page,
+    loginPage,
+  }) => {
     await loginPage.login("Not Admin", "Wrong Password");
     await loginPage.expectErrorMessage(/Invalid credentials/);
   });
 
-  test("Required validation is displayed when credentials are empty", async () => {
+  test("Required validation is displayed when credentials are empty", async ({
+    loginPage,
+  }) => {
     await loginPage.clickLogin();
     await expect(loginPage.requiredFieldMessage).toHaveCount(2);
   });
