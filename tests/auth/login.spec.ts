@@ -1,22 +1,47 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "../../fixtures/base.fixture";
 import { ENV } from "../../utils/env";
-import { LoginPage } from "../../pages/auth/LoginPage";
+import { AUTH_DATA } from "../../test-data/auth.data";
 
-test("OrangeHRM login page loads successfully", async ({ page }) => {
-  await page.goto("/");
-  await expect(page).toHaveTitle(/OrangeHRM/);
-});
+test.describe("Login", () => {
+  test.beforeEach(async ({ loginPage }) => {
+    await loginPage.goto();
+  });
 
-test("User can login with valid Credentials", async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  await loginPage.goto();
-  await loginPage.login(ENV.username, ENV.password);
-  await expect(page).toHaveURL(/dashboard/);
-});
+  test(
+    "OrangeHRM login page loads successfully",
+    { tag: "@smoke" },
+    async ({ page }) => {
+      await expect(page).toHaveTitle(/OrangeHRM/);
+    },
+  );
 
-test.only("User cannot login with invalid Credentials", async ({ page }) => {
-  const loginPage = new LoginPage(page);
-  await loginPage.goto();
-  await loginPage.login("Not Admin", "Wrong Password");
-  await loginPage.expectErrorMessage(/Invalid credentials/);
+  test(
+    "User can login with valid Credentials",
+    { tag: ["@smoke", "@regression"] },
+    async ({ page, loginPage }) => {
+      await loginPage.login(ENV.username, ENV.password);
+      await expect(page).toHaveURL(/dashboard/);
+    },
+  );
+
+  test(
+    "User cannot login with invalid Credentials",
+    { tag: ["@regression", "@negative"] },
+    async ({ page, loginPage }) => {
+      await loginPage.login(
+        AUTH_DATA.invalidUsername,
+        AUTH_DATA.invalidPassword,
+      );
+      await loginPage.expectErrorMessage(/Invalid credentials/);
+    },
+  );
+
+  test(
+    "Required validation is displayed when credentials are empty",
+    { tag: ["@regression", "@negative"] },
+    async ({ loginPage }) => {
+      await loginPage.clickLogin();
+      await expect(loginPage.requiredFieldMessage).toHaveCount(2);
+    },
+  );
 });

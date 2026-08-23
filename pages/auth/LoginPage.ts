@@ -6,6 +6,8 @@ export class LoginPage {
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
   readonly errorAlert: Locator;
+  readonly invalidCredentialsMessage: Locator;
+  readonly requiredFieldMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -14,6 +16,8 @@ export class LoginPage {
     this.passwordInput = page.getByPlaceholder("Password");
     this.loginButton = page.getByRole("button", { name: "Login" });
     this.errorAlert = page.getByRole("alert");
+    this.invalidCredentialsMessage = page.getByText("Invalid credentials");
+    this.requiredFieldMessage = page.getByText("Required");
   }
 
   async goto() {
@@ -28,7 +32,11 @@ export class LoginPage {
 
   async expectErrorMessage(message: string | RegExp) {
     await expect(this.errorAlert).toBeVisible();
-    console.log("Error Message: ", await this.errorAlert.allTextContents());
+    // console.log("Error Message: ", await this.errorAlert.allTextContents());
     await expect(this.errorAlert).toContainText(message);
+  }
+
+  async clickLogin() {
+    await this.loginButton.click();
   }
 }

@@ -9,10 +9,17 @@
     "test:debug": "npx playwright test --debug",
     "test:smoke": "playwright test --grep @smoke",
     "test:regression": "playwright test --grep @regression",
+    "test:negative": "playwright test --grep @negative",
     "test:e2e": "playwright test --grep @e2e",
     "test:ui": "playwright test --ui",
     "test:report": "npx playwright show-report --port 9234",
-    "codegen": "node scripts/codegen.js"
+    "codegen": "node scripts/codegen.js",
+    "test:smoke-headed": "playwright test --grep @smoke --headed --workers=1",
+    "test:regression-headed": "playwright test --grep @regression --headed --workers=1",
+    "test:negative-headed": "playwright test --grep @negative --headed --workers=1",
+    "test:e2e-headed": "playwright test --grep @e2e --headed --workers=1",
+    "test:auth": "playwright test tests/auth",
+    "test:auth-headed": "playwright test tests/auth --headed --workers=1"
   },
   "keywords": [],
   "author": "",
