@@ -15,6 +15,13 @@ export default defineConfig({
   testDir: "./tests",
   /* Run tests in files in parallel */
   fullyParallel: true,
+  /* Time each test gets to complete */
+  timeout: 30 * 1000,
+
+  /* Maximum time each Assertion can take */
+  expect: {
+    timeout: 5 * 1000,
+  },
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -32,6 +39,9 @@ export default defineConfig({
     trace: "on",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
+
+    /* Maximum time each actions like locator.fill(), locator.click() can take */
+    // actionTimeout: 5 * 1000,
   },
 
   /* Configure projects for major browsers */

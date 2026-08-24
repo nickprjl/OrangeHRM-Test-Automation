@@ -1,4 +1,4 @@
-import { test, expect } from "../../fixtures/authenticated.fixture";
+import { test, expect } from "../../fixtures/employee.fixture";
 import { generateEmployeeData } from "../../utils/data-generators";
 
 test.describe("Employee Management", () => {
@@ -34,36 +34,26 @@ test.describe("Employee Management", () => {
         employee.lastName,
       );
 
-      await expect(employeePage.page).toHaveURL(/viewPersonalDetails/, {
-        timeout: 6000,
-      });
+      await expect(employeePage.page).toHaveURL(/viewPersonalDetails/);
 
       await expect(employeePage.employeeName).toContainText(employee.firstName);
       await expect(employeePage.employeeName).toContainText(employee.lastName);
     },
   );
 
-  test(
+  test.only(
     "User can search for an employee",
     { tag: "@regression" },
-    async ({ pimPage, employeePage }) => {
-      const employee = generateEmployeeData();
-      await pimPage.goto();
-      await pimPage.addEmployeeButton.click();
-      await employeePage.addEmployee(
-        employee.firstName,
-        employee.middleName,
-        employee.lastName,
-      );
-      await expect(employeePage.page).toHaveURL(/viewPersonalDetails/, {
-        timeout: 6000,
-      });
+    async ({ pimPage, createdEmployee }) => {
       await pimPage.goto();
       await pimPage.searchEmployee(
-        `${employee.firstName} ${employee.middleName} ${employee.lastName}`,
+        `${createdEmployee.firstName} ${createdEmployee.middleName} ${createdEmployee.lastName}`,
       );
       await expect(
-        pimPage.getEmployeeRow(employee.firstName, employee.lastName),
+        pimPage.getEmployeeRow(
+          createdEmployee.firstName,
+          createdEmployee.lastName,
+        ),
       ).toBeVisible();
     },
   );
