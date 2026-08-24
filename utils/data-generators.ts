@@ -1,5 +1,7 @@
-export function generateUniqueId(): string {
-  return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+import { randomBytes } from "node:crypto";
+
+export function generateUniqueId(length = 8): string {
+  return randomBytes(length).toString("hex");
 }
 
 export function generateEmployeeData() {
