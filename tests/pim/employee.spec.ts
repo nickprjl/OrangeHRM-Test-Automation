@@ -1,20 +1,14 @@
-import { test, expect } from "../../fixtures/base.fixture";
-import { ENV } from "../../utils/env";
+import { test, expect } from "../../fixtures/authenticated.fixture";
 import { generateEmployeeData } from "../../utils/data-generators";
-import { PIMPage } from "../../pages/pim/PIMPage";
 
 test.describe("Employee Management", () => {
-  test.beforeEach(async ({ loginPage }) => {
-    await loginPage.goto();
-    await loginPage.login(ENV.username, ENV.password);
-  });
-
   test(
     "User can open Add Employee page",
     {
       tag: "@smoke",
     },
-    async ({ pimPage, employeePage }) => {
+    //need to call authenticatedPage just to trigger the authenticated fixture.
+    async ({ authenticatedPage, pimPage, employeePage }) => {
       await pimPage.goto();
 
       await pimPage.clickAddEmployee();
@@ -28,7 +22,7 @@ test.describe("Employee Management", () => {
     {
       tag: ["@smoke", "@regression"],
     },
-    async ({ pimPage, employeePage }) => {
+    async ({ authenticatedPage, pimPage, employeePage }) => {
       const employee = generateEmployeeData();
 
       await pimPage.goto();
@@ -50,10 +44,10 @@ test.describe("Employee Management", () => {
     },
   );
 
-  test.only(
+  test(
     "User can search for an employee",
     { tag: "@regression" },
-    async ({ pimPage, employeePage }) => {
+    async ({ authenticatedPage, pimPage, employeePage }) => {
       const employee = generateEmployeeData();
       await pimPage.goto();
       await pimPage.addEmployeeButton.click();
