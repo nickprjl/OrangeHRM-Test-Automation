@@ -7,8 +7,7 @@ test.describe("Employee Management", () => {
     {
       tag: "@smoke",
     },
-    //need to call authenticatedPage just to trigger the authenticated fixture.
-    async ({ authenticatedPage, pimPage, employeePage }) => {
+    async ({ pimPage, employeePage }) => {
       await pimPage.goto();
 
       await pimPage.clickAddEmployee();
@@ -22,7 +21,7 @@ test.describe("Employee Management", () => {
     {
       tag: ["@smoke", "@regression"],
     },
-    async ({ authenticatedPage, pimPage, employeePage }) => {
+    async ({ pimPage, employeePage }) => {
       const employee = generateEmployeeData();
 
       await pimPage.goto();
@@ -47,7 +46,7 @@ test.describe("Employee Management", () => {
   test(
     "User can search for an employee",
     { tag: "@regression" },
-    async ({ authenticatedPage, pimPage, employeePage }) => {
+    async ({ pimPage, employeePage }) => {
       const employee = generateEmployeeData();
       await pimPage.goto();
       await pimPage.addEmployeeButton.click();

@@ -7,11 +7,14 @@ type AuthenticatedFixtures = {
 };
 
 export const test = base.extend<AuthenticatedFixtures>({
-  authenticatedPage: async ({ loginPage, page }, use) => {
-    await loginPage.goto();
-    await loginPage.login(ENV.username, ENV.password);
-    await use(page);
-  },
+  authenticatedPage: [
+    async ({ loginPage, page }, use) => {
+      await loginPage.goto();
+      await loginPage.login(ENV.username, ENV.password);
+      await use(page);
+    },
+    { auto: true },
+  ],
 });
 
 export { expect };
