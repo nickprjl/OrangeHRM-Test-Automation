@@ -58,7 +58,7 @@ test.describe("Employee Management", () => {
     },
   );
 
-  test.only(
+  test(
     "User can edit an employee",
     { tag: "@regression" },
 
