@@ -55,7 +55,7 @@ This helps keep test files focused on the actual test scenarios while separating
 ```text
 Test Spec
    ↓
-Page Object
+Page Objects
    ↓
 Locators & Actions
    ↓
