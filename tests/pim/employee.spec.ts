@@ -41,7 +41,7 @@ test.describe("Employee Management", () => {
     },
   );
 
-  test.only(
+  test(
     "User can search for an employee",
     { tag: "@regression" },
     async ({ pimPage, createdEmployee }) => {
@@ -55,6 +55,35 @@ test.describe("Employee Management", () => {
           createdEmployee.lastName,
         ),
       ).toBeVisible();
+    },
+  );
+
+  test(
+    "User can edit an employee",
+    { tag: "@regression" },
+
+    async ({ pimPage, employeePage, createdEmployee }) => {
+      const updatedMiddleName = "Updated";
+      await pimPage.goto();
+      await pimPage.searchEmployee(
+        `${createdEmployee.firstName} ${createdEmployee.middleName} ${createdEmployee.lastName}`,
+      );
+      await pimPage.clickEditEmployee(
+        createdEmployee.firstName,
+        createdEmployee.lastName,
+      );
+
+      await expect(employeePage.firstNameInput).toHaveValue(
+        createdEmployee.firstName,
+      );
+
+      await expect(employeePage.lastNameInput).toHaveValue(
+        createdEmployee.lastName,
+      );
+      await expect(employeePage.middleNameInput).toBeVisible();
+      await employeePage.updateMiddleName(updatedMiddleName);
+      await employeePage.page.reload();
+      await expect(employeePage.middleNameInput).toHaveValue(updatedMiddleName);
     },
   );
 });

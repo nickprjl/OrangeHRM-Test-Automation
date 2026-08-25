@@ -30,7 +30,7 @@ jobs:
       run: npx playwright install --with-deps chromium
 
     - name: Run Playwright Tests
-      run: npm run test:auth
+      run: npm run test:pim
       env:
           ORANGEHRM_USERNAME: ${{ secrets.ORANGEHRM_USERNAME }}
           ORANGEHRM_PASSWORD: ${{ secrets.ORANGEHRM_PASSWORD }}
