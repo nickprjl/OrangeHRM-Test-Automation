@@ -44,4 +44,12 @@ export class PIMPage {
       .filter({ hasText: firstName })
       .filter({ hasText: lastName });
   }
+
+  async clickEditEmployee(firstName: string, lastName: string) {
+    await this.getEmployeeRow(firstName, lastName)
+      .locator(".oxd-table-cell-actions")
+      .getByRole("button")
+      .first()
+      .click();
+  }
 }

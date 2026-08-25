@@ -7,8 +7,10 @@ export class EmployeePage {
   readonly middleNameInput: Locator;
   readonly lastNameInput: Locator;
   readonly employeeIdInput: Locator;
-  readonly saveButton: Locator;
+  readonly addEmployeeSaveButton: Locator;
   readonly employeeName: Locator;
+  readonly personalDetailsSection: Locator;
+  readonly personalDetailsSaveButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -21,10 +23,20 @@ export class EmployeePage {
       .filter({ hasText: "Employee Id" })
       .locator("..")
       .getByRole("textbox");
-    this.saveButton = page.getByRole("button", {
+    this.addEmployeeSaveButton = page.getByRole("button", {
       name: "Save",
     });
     this.employeeName = page.locator(".orangehrm-edit-employee-name");
+
+    this.personalDetailsSection = page
+      .locator(".orangehrm-horizontal-padding.orangehrm-vertical-padding")
+      .filter({
+        has: page.getByRole("heading", { name: "Personal Details" }),
+      });
+    this.personalDetailsSaveButton = this.personalDetailsSection.getByRole(
+      "button",
+      { name: "Save" },
+    );
   }
 
   async addEmployee(firstName: string, middleName: string, lastName: string) {
@@ -32,6 +44,11 @@ export class EmployeePage {
     await this.middleNameInput.fill(middleName);
     await this.lastNameInput.fill(lastName);
 
-    await this.saveButton.click();
+    await this.addEmployeeSaveButton.click();
+  }
+
+  async updateMiddleName(middleName: string) {
+    await this.middleNameInput.fill(middleName);
+    await this.personalDetailsSaveButton.click();
   }
 }
