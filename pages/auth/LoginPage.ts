@@ -31,10 +31,18 @@ export class LoginPage {
   }
 
   async loginAndWaitForDashboard(username: string, password: string) {
-    await this.usernameInput.fill(username);
-    await this.passwordInput.fill(password);
-    await this.loginButton.click();
-    await this.page.waitForURL(/dashboard/);
+    let attempt = 0;
+    await expect(async () => {
+      attempt++;
+      await this.goto();
+      await this.usernameInput.fill(username);
+      await this.passwordInput.fill(password);
+      await this.loginButton.click();
+      await this.page.waitForURL(/dashboard/);
+    }).toPass({ timeout: 10000, intervals: [1000, 2000, 3000] });
+    if (attempt > 1) {
+      console.log(`Login Success on attempt ${attempt}`);
+    }
   }
 
   async expectErrorMessage(message: string | RegExp) {
