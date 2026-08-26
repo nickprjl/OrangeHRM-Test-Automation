@@ -10,7 +10,7 @@ export const test = base.extend<AuthenticatedFixtures>({
   authenticatedPage: [
     async ({ loginPage, page }, use) => {
       await loginPage.goto();
-      await loginPage.login(ENV.username, ENV.password);
+      await loginPage.loginAndWaitForDashboard(ENV.username, ENV.password);
       await use(page);
     },
     { auto: true },
