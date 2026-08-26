@@ -86,4 +86,38 @@ test.describe("Employee Management", () => {
       await expect(employeePage.middleNameInput).toHaveValue(updatedMiddleName);
     },
   );
+
+  test(
+    "User can delete an employee",
+    { tag: "@regression" },
+
+    async ({ pimPage, employeePage, createdEmployee }) => {
+      await pimPage.goto();
+      await pimPage.searchEmployee(
+        `${createdEmployee.firstName} ${createdEmployee.middleName} ${createdEmployee.lastName}`,
+      );
+      await expect(
+        pimPage.getEmployeeRow(
+          createdEmployee.firstName,
+          createdEmployee.lastName,
+        ),
+      ).toBeVisible();
+      await pimPage.clickDeleteEmployee(
+        createdEmployee.firstName,
+        createdEmployee.lastName,
+      );
+      await expect(pimPage.deleteConfirmationDialog).toBeVisible();
+      await pimPage.deleteConfirmationDialog.click();
+      await pimPage.goto();
+      await pimPage.searchEmployee(
+        `${createdEmployee.firstName} ${createdEmployee.middleName} ${createdEmployee.lastName}`,
+      );
+      await expect(
+        pimPage.getEmployeeRow(
+          createdEmployee.firstName,
+          createdEmployee.lastName,
+        ),
+      ).not.toBeVisible();
+    },
+  );
 });
