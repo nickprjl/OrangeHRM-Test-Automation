@@ -87,7 +87,7 @@ test.describe("Employee Management", () => {
     },
   );
 
-  test.only(
+  test(
     "User can delete an employee",
     { tag: "@regression" },
 
