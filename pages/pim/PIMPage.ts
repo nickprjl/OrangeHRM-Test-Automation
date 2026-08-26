@@ -8,6 +8,9 @@ export class PIMPage {
   readonly employeeNameInput: Locator;
   readonly supervisorNameInput: Locator;
   readonly searchButton: Locator;
+  readonly deleteConfirmationDialog: Locator;
+  readonly confirmDeleteButton: Locator;
+  readonly cancelDeleteButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -23,6 +26,22 @@ export class PIMPage {
       .filter({ hasText: "Supervisor Name" })
       .getByPlaceholder("Type for hints...");
     this.searchButton = page.getByRole("button", { name: "Search" });
+    this.deleteConfirmationDialog = page
+      .locator(".orangehrm-dialog-popup")
+      .filter({ hasText: "Are you Sure?" })
+      .filter({ has: page.getByRole("button", { name: "Yes, Delete" }) });
+    this.confirmDeleteButton = this.deleteConfirmationDialog.getByRole(
+      "button",
+      {
+        name: "Yes, Delete",
+      },
+    );
+    this.cancelDeleteButton = this.deleteConfirmationDialog.getByRole(
+      "button",
+      {
+        name: "No, Cancel",
+      },
+    );
   }
 
   async goto() {
@@ -50,6 +69,14 @@ export class PIMPage {
       .locator(".oxd-table-cell-actions")
       .getByRole("button")
       .first()
+      .click();
+  }
+
+  async clickDeleteEmployee(firstName: string, lastName: string) {
+    await this.getEmployeeRow(firstName, lastName)
+      .locator(".oxd-table-cell-actions")
+      .getByRole("button")
+      .nth(1)
       .click();
   }
 }
